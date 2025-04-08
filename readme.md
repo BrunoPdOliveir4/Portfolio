@@ -1,4 +1,4 @@
-```Mermaid
+```mermaid
 erDiagram
     CandidateSkills }|..|{ JobOpportunity : requires
     CandidateSkills ||--o{ Candidate : possesses
