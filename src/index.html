@@ -100,6 +100,12 @@ section {
             </div>
             <div>
                 <label>
+                    My contact email/number: 
+                </label> 
+                <input type="text" name="" id="contact" placeholder="+551199988775566">
+            </div>
+            <div>
+                <label>
                     This position is how many hours week?  
                 </label>
                 <input type="number" name="" id="hours" placeholder="44">
@@ -122,64 +128,79 @@ section {
         const name = document.getElementById('name').value.trim();
         const company = document.getElementById('company').value.trim();
         const jobPosition = document.getElementById('jobPosition').value.trim();
+        const contact = document.getElementById('contact').value.trim(); // ✅ new
         const hours = document.getElementById('hours').value.trim();
         const income = document.getElementById('income').value.trim();
-        return {name, company, jobPosition, hours, income};
-    }
+        return { name, company, jobPosition, contact, hours, income };
+    };
 
     const validateData = (infos) => {
-        const {name, company, jobPosition, hours, income} = infos;
+        const { name, company, jobPosition, contact, hours, income } = infos;
         const validators = [
             {
-            field: name,
-            regex: /^[a-zA-ZÀ-ÿ\s]+$/,
-            message: 'Please enter a valid name (letters only)',
+                field: name,
+                regex: /^[a-zA-ZÀ-ÿ\s]+$/,
+                message: 'Please enter a valid name (letters only)',
             },
             {
-            field: company,
-            regex: /.+/,
-            message: 'Please enter your company name',
+                field: company,
+                regex: /.+/,
+                message: 'Please enter your company name',
             },
             {
-            field: jobPosition,
-            regex: /.+/,
-            message: 'Please enter the job position',
+                field: jobPosition,
+                regex: /.+/,
+                message: 'Please enter the job position',
             },
             {
-            field: hours,
-            regex: /^([1-9][0-9]?|1[0-6][0-8])$/, 
-            message: 'Please enter a valid number of hours (1-168)',
+                field: contact,
+                regex: /^(.+@.+\..+|\+?\d{10,})$/, // ✅ email or phone
+                message: 'Please enter a valid contact (email or phone)',
             },
             {
-            field: income,
-            regex: /^[1-9][0-9]{3,}$/, 
-            message: 'Please enter an income above 1200',
+                field: hours,
+                regex: /^([1-9][0-9]?|1[0-6][0-8])$/,
+                message: 'Please enter a valid number of hours (1-168)',
+            },
+            {
+                field: income,
+                regex: /^[1-9][0-9]{3,}$/,
+                message: 'Please enter an income above 1200',
             },
         ];
         for (const v of validators) {
-            if (!v.regex.test(v.field) | v.field == undefined) {
-            alert(v.message);
-            return {name: null, company: null, 
-                    jobPosition: null, hours: null, income:null};
+            if (!v.regex.test(v.field) || v.field === undefined) {
+                alert(v.message);
+                return {
+                    name: null,
+                    company: null,
+                    jobPosition: null,
+                    contact: null,
+                    hours: null,
+                    income: null,
+                };
             }
         }
-        return {name, company, jobPosition, hours, income};
-    }
+        return { name, company, jobPosition, contact, hours, income };
+    };
+
     sendButton.addEventListener('click', () => {
-        const {name, company, jobPosition, hours, income} = validateData(getData());
-        if(name===null) return;
-        console.log("ok")
-        sendData();      
+        const { name, company, jobPosition, contact, hours, income } = validateData(getData());
+        if (name === null) return;
+        console.log("ok");
+        sendData();
     });
+
     const sendData = async () => {
-            await fetch('http://localhost:3001/send-email', {
+        await fetch('http://localhost:3001/send-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(getData())
         });
-        
+
         alert('Data sent successfully!');
-        }
+    };
+
 </script>
   
 </html>
