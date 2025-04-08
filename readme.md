@@ -28,7 +28,7 @@ erDiagram
 ### Employment Process Mindmap
 
 To better understand and represent the employment journey, I created a mindmap using Mermaid:
-```
+```mermaid
 mindmap
   root((Employment Process))
     Preparation
