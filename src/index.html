@@ -18,7 +18,7 @@ section {
     font-weight: bold;
     color: white;
     width: 90%;
-    max-width: 800px;
+    max-width: 1200px;
     padding: 3em;
     border-radius: 2em;
     display: grid;
@@ -58,6 +58,9 @@ section {
       &:hover {
         background-color: #45a049;
       }
+    }
+    button:disabled{
+        background-color: lightgrey;
     }
   }
   @media (max-width: 600px) {
@@ -114,7 +117,7 @@ section {
                 <label>
                     This position income is:   
                 </label>
-                <input min="1200" type="number" name="" id="income" placeholder="44">
+                <input min="1200" type="number" name="" id="income" placeholder="1250">
             </div>
             <button id="send">Send</button>
         </div>
@@ -128,7 +131,7 @@ section {
         const name = document.getElementById('name').value.trim();
         const company = document.getElementById('company').value.trim();
         const jobPosition = document.getElementById('jobPosition').value.trim();
-        const contact = document.getElementById('contact').value.trim(); // ✅ new
+        const contact = document.getElementById('contact').value.trim(); 
         const hours = document.getElementById('hours').value.trim();
         const income = document.getElementById('income').value.trim();
         return { name, company, jobPosition, contact, hours, income };
@@ -187,7 +190,7 @@ section {
     sendButton.addEventListener('click', () => {
         const { name, company, jobPosition, contact, hours, income } = validateData(getData());
         if (name === null) return;
-        console.log("ok");
+        sendButton.disabled = true;
         sendData();
     });
 
@@ -199,6 +202,7 @@ section {
         });
 
         alert('Data sent successfully!');
+        sendButton.disabled = false;
     };
 
 </script>
