@@ -1,5 +1,6 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
+const { formatMail } = require('./assets/MailHandle');
 require('dotenv').config(); 
 
 const app = express();
@@ -9,12 +10,11 @@ const EMAIL = process.env.EMAIL;
 const PASSWORD = process.env.PASSWORD;
 const RECIPIENT = process.env.RECIPIENT;
 app.get('/', (req, res) => {
-  res.send("Perfect, ma boy!");
+  res.sendFile(__dirname+"/index.html");
 });
 
 app.post('/send-email', (req, res) => {
-  const { subject, text } = req.body;
-
+  const {subject, text} = formatMail(req.body);
   if (!subject || !text) {
     return res.status(400).send('Missing required fields');
   }

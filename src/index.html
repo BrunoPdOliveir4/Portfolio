@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gimme a Job!</title>
+</head>
+<style>
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80dvh;
+  width: 100%;
+
+  .container {
+    background-color: rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+    color: white;
+    width: 90%;
+    max-width: 800px;
+    padding: 3em;
+    border-radius: 2em;
+    display: grid;
+    gap: 2em;
+
+    .form-group {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 1em;
+      align-items: center;
+
+      label {
+        text-align: right;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        border: none;
+      }
+    }
+
+    button {
+      grid-column: span 2;
+      padding: 0.8em;
+      border: none;
+      border-radius: 1em;
+      background-color: #4caf50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+  @media (max-width: 600px) {
+    .container {
+      padding: 2em;
+
+      .form-group {
+        grid-template-columns: 1fr;
+        label {
+          text-align: left;
+        }
+      }
+
+      button {
+        grid-column: span 1;
+      }
+    }
+  }
+}
+
+</style>
+<body>
+    <section>
+        <div class="container">
+            <div>
+                <label>My name is: </label> 
+                <input type="text" name="" id="name" placeholder="your name">
+            </div>
+            <div>
+                <label>
+                    My company is: 
+                </label>
+                <input type="text" name="" id="company" placeholder="your company">
+            </div>
+            <div>
+                <label>
+                    This job position is: 
+                </label> 
+                <input type="text" name="" id="jobPosition" placeholder="Backend Developer">
+            </div>
+            <div>
+                <label>
+                    This position is how many hours week?  
+                </label>
+                <input type="number" name="" id="hours" placeholder="44">
+            </div>
+            <div>
+                <label>
+                    This position income is:   
+                </label>
+                <input min="1200" type="number" name="" id="income" placeholder="44">
+            </div>
+            <button id="send">Send</button>
+        </div>
+        
+    </section>
+</body>
+<script>
+    const sendButton = document.getElementById('send');
+    let hasEnoughtData = false;
+    const getData = () => {
+        const name = document.getElementById('name').value.trim();
+        const company = document.getElementById('company').value.trim();
+        const jobPosition = document.getElementById('jobPosition').value.trim();
+        const hours = document.getElementById('hours').value.trim();
+        const income = document.getElementById('income').value.trim();
+        return {name, company, jobPosition, hours, income};
+    }
+
+    const validateData = (infos) => {
+        const {name, company, jobPosition, hours, income} = infos;
+        const validators = [
+            {
+            field: name,
+            regex: /^[a-zA-ZÀ-ÿ\s]+$/,
+            message: 'Please enter a valid name (letters only)',
+            },
+            {
+            field: company,
+            regex: /.+/,
+            message: 'Please enter your company name',
+            },
+            {
+            field: jobPosition,
+            regex: /.+/,
+            message: 'Please enter the job position',
+            },
+            {
+            field: hours,
+            regex: /^([1-9][0-9]?|1[0-6][0-8])$/, 
+            message: 'Please enter a valid number of hours (1-168)',
+            },
+            {
+            field: income,
+            regex: /^[1-9][0-9]{3,}$/, 
+            message: 'Please enter an income above 1200',
+            },
+        ];
+        for (const v of validators) {
+            if (!v.regex.test(v.field) | v.field == undefined) {
+            alert(v.message);
+            return {name: null, company: null, 
+                    jobPosition: null, hours: null, income:null};
+            }
+        }
+        return {name, company, jobPosition, hours, income};
+    }
+    sendButton.addEventListener('click', () => {
+        const {name, company, jobPosition, hours, income} = validateData(getData());
+        if(name===null) return;
+        console.log("ok")
+        sendData();      
+    });
+    const sendData = async () => {
+            await fetch('http://localhost:3001/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(getData())
+        });
+        
+        alert('Data sent successfully!');
+        }
+</script>
+  
+</html>
