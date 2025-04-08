@@ -61,6 +61,28 @@ This project is my way of saying:
 
 So, if you’re an employer or recruiter and you see potential here, feel free to send me your job opportunity. Let’s connect and build something great together.
 
-### How can you send me your opportunity
+### How to Send Me Your Opportunity
+
+If you're interested in working together, feel free to fill out this form:  
+-> [https://portfolio-j4h8.onrender.com](https://portfolio-j4h8.onrender.com)  
+It will automatically send me an email with your information.
+
+The format of the info should look like this:
+
+```json
+{
+  "name": "your_name",
+  "company": "your_company",
+  "jobPosition": "job title",
+  "hours": 44, // must be an integer
+  "income": 1400.23, // can be a float
+  "contact": "email or phone"
+}
+```
+
+> This is still a work in progress — thanks for your patience!
+
+---
+
 
 > In progress
