@@ -52,4 +52,15 @@ mindmap
       Integration
 ```
 
+## About the Project
 
+I took some time to reflect on the traditional job-hunting process—and instead of sending out tons of resumes to countless companies, I decided to flip the script.
+
+This project is my way of saying:
+“Here’s who I am, here’s what I can do—now tell me what opportunities you have.”
+
+So, if you’re an employer or recruiter and you see potential here, feel free to send me your job opportunity. Let’s connect and build something great together.
+
+### How can you send me your opportunity
+
+> In progress
