@@ -84,5 +84,6 @@ The format of the info should look like this:
 
 ---
 
+## Feedback section
 
 > In progress

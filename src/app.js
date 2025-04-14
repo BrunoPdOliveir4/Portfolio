@@ -1,6 +1,7 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const { formatMail } = require('./assets/MailHandle');
+const { subscribingMail } = require('./assets/ConfirmSubscription');
 require('dotenv').config(); 
 
 const app = express();
@@ -30,6 +31,39 @@ app.post('/send-email', (req, res) => {
   const mailOptions = {
     from: EMAIL,
     to: RECIPIENT,
+    subject,
+    text,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error(error);
+      return res.status(500).send('Error sending email');
+    } else {
+      console.log('Email sent: ' + info.response);
+      return res.status(200).send('Email sent successfully');
+    }
+  });
+});
+
+app.post('/send-email/:recipient', (req, res) => {
+  const {subject, text} = subscribingMail(req.body);
+  const recipient = req.params.recipient;
+  if (!subject || !text || !recipient) {
+    return res.status(400).send('Missing required fields');
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: EMAIL,
+      pass: PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: EMAIL,
+    to: recipient,
     subject,
     text,
   };
